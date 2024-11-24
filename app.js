@@ -1,6 +1,12 @@
 const express = require("express");
 const app = express();
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static("public"));
+
+
+
 // importing userModel
 const userModel = require("./models/user.js");
 
@@ -11,14 +17,26 @@ const userModel = require("./models/user.js");
 // now importing connection 
 const dbConnection = require("./config/db.js");
 
+app.get("/register", (req, res) => {
+    res.render("register");
+});
 
+app.post("/register", async (req, res) => {
+    
+    const { username, email, password } = req.body;
+
+    // To create data in db you need userModel
+    await userModel.create({
+        Name: username, 
+        email: email, 
+        password: password, 
+    })
+
+    res.send("user register"); 
+});
 
 
 app.set("view engine", "ejs");
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static("public"));
 
 
 // for hitting post route you need to add post value in method attribute in front-end 
