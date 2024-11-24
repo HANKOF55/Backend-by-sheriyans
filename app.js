@@ -8,36 +8,39 @@ const app = express();
 app.set("view engine", "ejs");
 
 
-// setting up routes using express
+// These are the buildin middlewares
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+// The above code will show the data entered in the form to the terminal
 
-// creating a middleware
-// middleware generally used for sharing error responses
-app.use((req, res, next) => {
-    console.log("This is a middleware");
+// NOTE: You need to create a Public folder for static files
+// here you need add this line of code to tell express about the default static folder
+app.use(express.static("public"));
 
-    return next(); 
+
+// creating a route for submitting form data
+// app.get("/get-form-data", (req,res) => {
+//     console.log(req.query)
+//     res.send("data recieved");
+// })
+//Above get method will show the data entered by user in url so to avoid this we use post method
+
+
+// for hitting post route you need to add post value in method attribute in front-end 
+app.post("/get-form-data", (req,res) => {
+    console.log(req.body);
+    res.send("Data Recieved");
 })
 
 // creating a custom middleware for a single route
-app.get("/", (req, res, next) => {
-    const a = 5; 
-    const b = 4;
-    console.log(a+b);
-
-    next();
-
-}
- , (req,res) => {
+app.get("/", (req,res) => {
     res.render("index");
-})
-
-app.get("/about", (req,res) => {
-    res.send("This is About Page.")
-})
-
-app.get("/profile", (req,res) => {
-    res.send("This is Profile Page.");
 })
 
 // listeining server on port 5000
 app.listen(5000)
+
+
+
+
+

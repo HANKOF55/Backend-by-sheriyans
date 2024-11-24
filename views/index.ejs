@@ -4,10 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="index.css">
 </head>
 <body>
 
     <h1>This is the main page.</h1>
+
+
+    <!-- here we need to on which route form is get submitted  -->
+    <!-- here you need to add method attribute and give post as its value if you are using app.post in backend -->
+    <form action="get-form-data" method="post">
+        <input 
+        name="name"
+            type="text"
+            placeholder="Enter Your Name"
+        >
+
+        <input 
+            name="email"
+            type="email"
+            placeholder="Enter Your email"
+        >
+
+        <input 
+            name="password"
+            type="password"
+            placeholder="Enter Passowrd"
+        >
+
+        <button>Submit Form</button>
+
+    </form>
     
+    <script src="./assets/index.js"></script>
+
 </body>
 </html>
