@@ -1,21 +1,49 @@
 const express = require("express");
 const app = express();
 
+app.set("view engine", "ejs");
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-
-
 // importing userModel
 const userModel = require("./models/user.js");
 
-// To use the above imported model you need to create a schema and a model which i had created in the models folder in user.js file
-
-// Now we need to connect our model to db to do that we create a config folder and then we create a "db.js" file.  
-
 // now importing connection 
 const dbConnection = require("./config/db.js");
+
+// Read Operation
+app.get("/users", (req, res) => {
+
+    // .find() method fetch all the users from database and send it to then 
+    userModel.find().then((users) => {
+        res.send(users);
+    })
+})
+
+//Update Operation
+app.get("/update-user", async (req, res) => {
+    
+    await userModel.findOneAndUpdate({
+        Name: "Harish"
+    }, 
+    {
+        email: "harish@mail.in"
+    })
+
+    res.send("user updated"); 
+})
+
+//Delete Operation
+app.get("/delete-user", async (req, res) => {
+    
+    await userModel.findOneAndDelete({
+        Name: "Harish" 
+    })
+
+    res.send("User Deleted");
+})
 
 app.get("/register", (req, res) => {
     res.render("register");
@@ -36,7 +64,6 @@ app.post("/register", async (req, res) => {
 });
 
 
-app.set("view engine", "ejs");
 
 
 // for hitting post route you need to add post value in method attribute in front-end 
